@@ -22,12 +22,13 @@ public class Principal {
         Scanner entrada = new Scanner(System.in);
         boolean bandera = true;
         while (bandera) {
-            System.out.printf("%s\n%s\n%s\n%s\n%s\n",
+            System.out.printf("%s\n%s\n%s\n%s\n%s\n%s\n",
                     "Opciones",
                     "1) Ingrese Club",
                     "2) Listar Club",
                     "3) Ingrese Jugador",
-                    "4) Listar Jugador");
+                    "4) Listar Jugador",
+                    "5) Verificar Jugador");
             int opcion = entrada.nextInt();
             if (opcion == 1) {
                 agregarClubs();
@@ -46,8 +47,14 @@ public class Principal {
                     } else {
                         if (opcion == 4) {
                             verJugadores();
-                        }else{
-                            System.out.println("Opción incorrecta");
+                        } else {
+                            if (opcion == 5) {
+                                verificarJugadores();
+                        
+                            } else {
+                                System.out.println("Opción incorrecta");
+                            }
+
                         }
                     }
 
@@ -112,12 +119,12 @@ public class Principal {
                 = new LecturaSecuencialClub(nombreArchivoClub);
         lectura.establecerRegistroBuscado(siglasEquipo);
         Club c = lectura.obtenerRegistroBuscado();
-        
+
         // print para presentar si existe el club. Informativo
-        if (c==null) {
+        if (c == null) {
             System.out.println("Debe seleccionar de forma correcta el club");
         }
-        
+
         if (c != null) {
             EscrituraSecuencialJugador archivo
                     = new EscrituraSecuencialJugador(nombreArchivo);
@@ -131,7 +138,7 @@ public class Principal {
         }
         return bandera;
     }
-    
+
     public static void verJugadores() {
         String nombreArchivo = "data/jugadores.dat";
         LecturaSecuencialJugador lectura
@@ -139,6 +146,20 @@ public class Principal {
         lectura.establecerJugadores();
         System.out.println(lectura);
         lectura.cerrarArchivo();
+    }
+    public static void verificarJugadores(){
+    Scanner entrada = new Scanner(System.in);
+    String nombreArchivo = "data/jugadores.dat";
+        System.out.println(" ingrese el nombre del jugador a verificar: ");
+        String  nombreJ = entrada.nextLine();
+        LecturaSecuencialJugador veri = new LecturaSecuencialJugador(nombreArchivo);
+        veri.establecerJugadores();
+        Jugador j = veri.verificarJugador(nombreJ);
+        if (j == null) {
+            System.out.println("el jugador ingresado no existe");
+        }else{
+            System.out.println("Jugador existe");
+        }
     }
 
 }
